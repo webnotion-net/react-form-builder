@@ -1,0 +1,50 @@
+{
+  "name": "@webnotion-net/react-form-builder",
+  "version": "0.1.0-alpha.1",
+  "description": "A lightweight React library for building forms with built-in validation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/webnotion-net/react-form-builder.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "keywords": [
+    "typescript",
+    "react",
+    "forms",
+    "form-builder",
+    "validatable-form-builder",
+    "data-validator",
+    "model-validator",
+    "webnotion",
+    "validator"
+  ],
+  "author": "Dainius Šležas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/webnotion-net/react-form-builder/issues"
+  },
+  "homepage": "https://github.com/webnotion-net/react-form-builder#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tslib": "^2.6.3",
+    "@webnotion-net/typescript-model-validator": "^1.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@types/node": "^20.14.12",
+    "typescript": "^5.5.4"
+  }
+}
