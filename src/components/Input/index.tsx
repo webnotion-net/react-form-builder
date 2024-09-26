@@ -1,16 +1,20 @@
-import { ReactElement, useEffect, useState } from "react";
-import { Validator, Violation, Violations } from "@webnotion-net/typescript-model-validator";
+import {ReactElement, ReactNode, useEffect, useState} from "react";
+import {Validator, Violation, Violations} from "@webnotion-net/typescript-model-validator";
 import {useFormContext} from "../../context/FormContext";
+import {useConfig} from "../../config";
 
 type Props = {
     propertyName: string,
-    label?: string,
     placeholder: string,
     type: string,
+    label?: string,
+    icon?: ReactNode,
+    className?: ReactNode,
 };
 
-const Input = ({ propertyName, label, placeholder, type }: Props): ReactElement => {
-    const { data, setData, violations, setViolations } = useFormContext();
+const Input = ({propertyName, placeholder, type, label, icon, className}: Props): ReactElement => {
+    const config = useConfig();
+    const {data, setData, violations, setViolations} = useFormContext();
     const [inputViolations, setInputViolations] = useState(new Violations([]));
 
     useEffect(() => {
@@ -24,7 +28,7 @@ const Input = ({ propertyName, label, placeholder, type }: Props): ReactElement 
 
         const newViolations = new Validator().validateProperty(
             propertyName,
-            data[propertyName],  // Access property directly
+            data[propertyName],
             data.getConstraints()[propertyName]
         );
 
@@ -41,18 +45,25 @@ const Input = ({ propertyName, label, placeholder, type }: Props): ReactElement 
     return (
         <div className="pb-3">
             {label && <label htmlFor={propertyName}>{label}</label>}
-            <input
-                type={type}
-                placeholder={placeholder}
-                className={`${
-                    inputViolations.violations.length === 0 ? 'border-transparent' : 'animate-shake border-red-400'
-                } border w-full rounded-lg mb-2.5 px-3.5 py-4 text-sm bg-dark-800 text-dark-300 placeholder-dark-500`}
-                onBlur={onInputOut}
-                onChange={onInputChange}
-                value={data ? data[propertyName] || '' : ''}  // Ensure data is valid before accessing
-            />
+            <div className="relative">
+                {
+                    icon && (
+                        <div className="h-full absolute left-5 text-xl flex items-center text-gray-400">
+                            {icon}
+                        </div>
+                    )
+                }
+                <input
+                    type={type}
+                    placeholder={placeholder}
+                    className={`${icon ? 'pl-14' : ''} ${config.input?.className} ${className ? className : ''} ${inputViolations.isEmpty() ? '' : config.input?.errorClassName}`}
+                    onBlur={onInputOut}
+                    onChange={onInputChange}
+                    value={data ? data[propertyName] || '' : ''}
+                />
+            </div>
             {inputViolations.violations.map((violation: Violation, index: number) => (
-                <p className="text-red-400 text-sm -mt-2 mb-5" key={index}>
+                <p className="text-red-400 text-sm -mt-1 mb-5" key={index}>
                     {violation.message}
                 </p>
             ))}
