@@ -8,13 +8,18 @@ type Props<T extends ValidatableModelInterface> = {
     onSuccess: (data: T) => void,
     onFailure: (data: T, violations: Violations) => void,
     children: ReactNode,
+    onSubmitInitiated?: () => void,
 }
 
-const Form = <T extends ValidatableModelInterface>({ data, setData, onSuccess, onFailure, children }: Props<T>) => {
+const Form = <T extends ValidatableModelInterface>({ data, setData, onSuccess, onFailure, children, onSubmitInitiated }: Props<T>) => {
     const [violations, setViolations] = useState<Violations>(new Violations());
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (onSubmitInitiated) {
+            onSubmitInitiated();
+        }
 
         const validator = new Validator();
         const newViolations = validator.validate(data);
