@@ -1,7 +1,7 @@
 import {ReactElement, ReactNode, useEffect, useState} from "react";
 import {Validator, Violation, Violations} from "@webnotion-net/typescript-model-validator";
 import {useFormContext} from "../../context/FormContext";
-import {useConfig} from "../../config";
+import {useConfig} from "../../useConfig";
 
 type Props = {
     propertyName: string,
@@ -56,7 +56,7 @@ const Input = ({propertyName, placeholder, type, label, icon, className}: Props)
                 <input
                     type={type}
                     placeholder={placeholder}
-                    className={`${icon ? 'pl-14' : ''} ${config.input?.className} ${className ? className : ''} ${inputViolations.isEmpty() ? '' : config.input?.errorClassName}`}
+                    className={`${className ?? config.input?.className} ${inputViolations.isEmpty() ? '' : config.input?.errorClassName}`}
                     onBlur={onInputOut}
                     onChange={onInputChange}
                     value={data ? data[propertyName] || '' : ''}
