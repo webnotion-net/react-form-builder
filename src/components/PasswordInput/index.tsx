@@ -5,7 +5,8 @@ type Props = {
     propertyName: string,
     placeholder: string,
     icon?: ReactNode,
-    className?: string,
+    className: string,
+    invalidInputClassName: string,
 };
 
 const PasswordInput = (
@@ -13,7 +14,8 @@ const PasswordInput = (
         propertyName,
         placeholder,
         icon,
-        className
+        className,
+        invalidInputClassName,
     }: Props
 ): ReactElement => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -26,6 +28,7 @@ const PasswordInput = (
                 type={passwordVisible ? 'text' : 'password'}
                 icon={icon}
                 className={className}
+                invalidInputClassName={invalidInputClassName}
             />
             <div
                 className="absolute top-5 right-5 text-2xl flex items-center text-gray-400 cursor-pointer z-50"

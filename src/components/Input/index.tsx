@@ -1,19 +1,28 @@
 import {ReactElement, ReactNode, useEffect, useState} from "react";
 import {Validator, Violation, Violations} from "@webnotion-net/typescript-model-validator";
 import {useFormContext} from "../../context/FormContext";
-import {useConfig} from "../../useConfig";
 
 type Props = {
     propertyName: string,
     placeholder: string,
     type: string,
+    className: string,
+    invalidInputClassName: string,
     label?: string,
     icon?: ReactNode,
-    className?: ReactNode,
 };
 
-const Input = ({propertyName, placeholder, type, label, icon, className}: Props): ReactElement => {
-    const config = useConfig();
+const Input = (
+    {
+        propertyName,
+        placeholder,
+        type,
+        label,
+        icon,
+        className,
+        invalidInputClassName
+    }: Props
+): ReactElement => {
     const {data, setData, violations, setViolations} = useFormContext();
     const [inputViolations, setInputViolations] = useState(new Violations([]));
 
@@ -56,7 +65,7 @@ const Input = ({propertyName, placeholder, type, label, icon, className}: Props)
                 <input
                     type={type}
                     placeholder={placeholder}
-                    className={`${className ?? config.input?.className} ${inputViolations.isEmpty() ? '' : config.input?.errorClassName}`}
+                    className={`${className} ${inputViolations.isEmpty() ? '' : invalidInputClassName}`}
                     onBlur={onInputOut}
                     onChange={onInputChange}
                     value={data ? data[propertyName] || '' : ''}
