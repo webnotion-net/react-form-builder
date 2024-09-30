@@ -1,6 +1,6 @@
 {
   "name": "@webnotion-net/react-form-builder",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "A lightweight React library for building forms with built-in validation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

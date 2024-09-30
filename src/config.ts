@@ -37,13 +37,13 @@ export const useConfig = (): Config => {
     let userConfig: Partial<Config> = {};
 
     try {
-        const loadedConfig = require('../../webnotion.config.ts');
+        const loadedConfig = require('../../../../webnotion.config.ts');
 
         if (loadedConfig && loadedConfig.config) {
             userConfig = loadedConfig.config;
         }
     } catch (error) {
-        // Using default config in case customized is not defined
+        console.log('can not find configuration file webnotion.config.ts')
     }
 
     return deepMerge(defaultConfig, userConfig);
