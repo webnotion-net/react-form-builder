@@ -1,44 +1,41 @@
 import {ReactElement, ReactNode, useState} from "react";
 import Input from "../Input";
+import {useFormContext} from "../../context/FormContext";
 
 type Props = {
     propertyName: string,
     placeholder: string,
+    showPasswordIcon: ReactNode,
+    hidePasswordIcon: ReactNode,
     icon?: ReactNode,
-    className: string,
-    invalidInputClassName: string,
 };
 
 const PasswordInput = (
     {
         propertyName,
         placeholder,
+        showPasswordIcon,
+        hidePasswordIcon,
         icon,
-        className,
-        invalidInputClassName,
     }: Props
 ): ReactElement => {
+    const {config} = useFormContext();
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     return (
-        <div className="relative">
+        <div style={{position: "relative"}}>
             <Input
                 propertyName={propertyName}
                 placeholder={placeholder}
                 type={passwordVisible ? 'text' : 'password'}
                 icon={icon}
-                className={className}
-                invalidInputClassName={invalidInputClassName}
             />
             <div
-                className="absolute top-5 right-5 text-2xl flex items-center text-gray-400 cursor-pointer z-50"
+                className={config?.passwordIconContainerClassName}
                 onClick={() => setPasswordVisible(!passwordVisible)}
             >
-                <div className="lni lni-eye"/>
                 {
-                    !passwordVisible && (
-                        <div className="absolute w-8 h-8 border-t-2 border-gray-400 rotate-45 -ml-3.5 mt-5"></div>
-                    )
+                    passwordVisible ? hidePasswordIcon : showPasswordIcon
                 }
             </div>
         </div>

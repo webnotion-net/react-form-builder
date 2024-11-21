@@ -6,8 +6,6 @@ type Props = {
     propertyName: string,
     placeholder: string,
     type: string,
-    className: string,
-    invalidInputClassName: string,
     label?: string,
     icon?: ReactNode,
 };
@@ -19,11 +17,9 @@ const Input = (
         type,
         label,
         icon,
-        className,
-        invalidInputClassName
     }: Props
 ): ReactElement => {
-    const {data, setData, violations, setViolations} = useFormContext();
+    const {data, setData, violations, setViolations, config} = useFormContext();
     const [inputViolations, setInputViolations] = useState(new Violations([]));
 
     useEffect(() => {
@@ -52,12 +48,12 @@ const Input = (
     };
 
     return (
-        <div className="pb-3">
-            {label && <label htmlFor={propertyName}>{label}</label>}
-            <div className="relative">
+        <>
+            {label && <label className={config?.labelClassName} htmlFor={propertyName}>{label}</label>}
+            <div className={config?.inputAndIconContainerClassName}>
                 {
                     icon && (
-                        <div className="h-full absolute left-5 text-xl flex items-center text-gray-400">
+                        <div className={config?.iconClassName}>
                             {icon}
                         </div>
                     )
@@ -65,18 +61,31 @@ const Input = (
                 <input
                     type={type}
                     placeholder={placeholder}
-                    className={`${className} ${inputViolations.isEmpty() ? '' : invalidInputClassName}`}
+                    className={`${config?.inputClassName} ${inputViolations.isEmpty() ? '' : config?.inputClassNameOnError}`}
                     onBlur={onInputOut}
                     onChange={onInputChange}
                     value={data ? data[propertyName] || '' : ''}
                 />
             </div>
-            {inputViolations.violations.map((violation: Violation, index: number) => (
-                <p className="text-red-400 text-sm -mt-1 mb-5" key={index}>
-                    {violation.message}
-                </p>
-            ))}
-        </div>
+            {
+                !inputViolations.isEmpty() &&
+                <ul className={config?.violationsListClassName}>
+                    {config?.renderFirstViolationOnly
+                        ?
+                        <li className={config?.violationsItemClassName}>
+                            {inputViolations.violations[0].message}
+                        </li>
+                        :
+                        inputViolations.violations.map((violation: Violation, index: number) => (
+                            <li className={config?.violationsItemClassName} key={index}>
+                                {violation.message}
+                            </li>
+                        ))
+                    }
+                </ul>
+            }
+
+        </>
     );
 };
 

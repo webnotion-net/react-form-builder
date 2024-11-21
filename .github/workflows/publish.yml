@@ -19,6 +19,8 @@ jobs:
                 with:
                     node-version: '14'
                     registry-url: 'https://registry.npmjs.org'
+            -   name: Enable npmrc
+                run: mv .npmrc.prod .npmrc
 
             -   name: Install dependencies
                 run: npm install
