@@ -19,6 +19,14 @@ jobs:
                 with:
                     node-version: '14'
                     registry-url: 'https://registry.npmjs.org'
+
+            -   name: Replace version in package.json
+                run: |
+                    TAG_NAME=${GITHUB_REF#refs/tags/}
+                    TAG_VERSION=${TAG_NAME#v}
+                    sed -i 's/{{version}}/'"$TAG_VERSION"'/g' package.json
+                    echo "Updated package.json with version $TAG_VERSION"
+
             -   name: Enable npmrc
                 run: mv .npmrc.prod .npmrc
 
@@ -27,10 +35,6 @@ jobs:
 
             -   name: Build the package
                 run: npm run build
-
-            -   name: Extract tag version
-                id: extract_version
-                run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
             -   name: Publish package
                 run: npm publish --access public
