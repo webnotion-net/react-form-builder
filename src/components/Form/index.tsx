@@ -2,18 +2,6 @@ import {FormEvent, ReactNode, useState} from "react";
 import {ValidatableModelInterface, Validator, Violation, Violations} from "@webnotion-net/typescript-model-validator";
 import FormContext from "../../context/FormContext";
 
-export type FormConfig = {
-    inputClassName?: string,
-    inputClassNameOnError?: string,
-    inputAndIconContainerClassName?: string,
-    iconClassName?: string,
-    labelClassName?: string,
-    renderFirstViolationOnly?: boolean,
-    violationsListClassName?: string,
-    violationsItemClassName?: string,
-    passwordIconContainerClassName?: string,
-}
-
 type Props<T extends ValidatableModelInterface> = {
     data: T,
     setData: (data: T) => void,
@@ -23,7 +11,6 @@ type Props<T extends ValidatableModelInterface> = {
     onFormSubmitInitiated?: () => void,
     formError?: string,
     setFormError?: (error: string) => void,
-    config?: FormConfig,
 }
 
 const Form = <T extends ValidatableModelInterface>(
@@ -34,7 +21,6 @@ const Form = <T extends ValidatableModelInterface>(
         onValidationFailure,
         children,
         onFormSubmitInitiated,
-        config
     }: Props<T>
 ) => {
     const [violations, setViolations] = useState<Violations>(new Violations());
@@ -58,7 +44,7 @@ const Form = <T extends ValidatableModelInterface>(
     };
 
     return (
-        <FormContext.Provider value={{data, setData, violations, setViolations, config}}>
+        <FormContext.Provider value={{data, setData, violations, setViolations}}>
             <form onSubmit={handleSubmit}>
                 {children}
             </form>
