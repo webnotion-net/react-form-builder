@@ -36,12 +36,12 @@
   },
   "homepage": "https://github.com/webnotion-net/react-form-builder#readme",
   "dependencies": {
-    "tslib": "^2.6.3"
+    "tslib": "^2.6.3",
+    "@webnotion-net/typescript-model-validator": "^1.2.2"
   },
   "peerDependencies": {
     "react": "18.3.*",
-    "react-dom": "18.3.*",
-    "@webnotion-net/typescript-model-validator": "^1.2.2"
+    "react-dom": "18.3.*"
   },
   "devDependencies": {
     "@types/react": "18.3.*",
