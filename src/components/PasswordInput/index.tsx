@@ -1,6 +1,6 @@
 import {ReactElement, ReactNode, useState} from "react";
 import Input from "../Input";
-import {useFormContext} from "../../context/FormContext";
+import {WebnotionFormConfig} from "../../config/WebnotionFormConfig";
 
 type Props = {
     propertyName: string,
@@ -8,6 +8,7 @@ type Props = {
     showPasswordIcon: ReactNode,
     hidePasswordIcon: ReactNode,
     icon?: ReactNode,
+    config?: WebnotionFormConfig,
 };
 
 const PasswordInput = (
@@ -17,9 +18,9 @@ const PasswordInput = (
         showPasswordIcon,
         hidePasswordIcon,
         icon,
+        config,
     }: Props
 ): ReactElement => {
-    const {config} = useFormContext();
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     return (
@@ -29,6 +30,7 @@ const PasswordInput = (
                 placeholder={placeholder}
                 type={passwordVisible ? 'text' : 'password'}
                 icon={icon}
+                config={config}
             />
             <div
                 className={config?.passwordIconContainerClassName}

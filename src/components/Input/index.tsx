@@ -1,6 +1,8 @@
 import {ReactElement, ReactNode, useEffect, useState} from "react";
 import {Validator, Violation, Violations} from "@webnotion-net/typescript-model-validator";
 import {useFormContext} from "../../context/FormContext";
+import {WebnotionFormConfig} from "../../config/WebnotionFormConfig";
+import ViolationsList from "../ViolationsList";
 
 type Props = {
     propertyName: string,
@@ -8,6 +10,7 @@ type Props = {
     type: string,
     label?: string,
     icon?: ReactNode,
+    config?: WebnotionFormConfig,
 };
 
 const Input = (
@@ -17,9 +20,10 @@ const Input = (
         type,
         label,
         icon,
+        config,
     }: Props
 ): ReactElement => {
-    const {data, setData, violations, setViolations, config} = useFormContext();
+    const {data, setData, violations, setViolations} = useFormContext();
     const [inputViolations, setInputViolations] = useState(new Violations([]));
 
     useEffect(() => {
@@ -67,24 +71,10 @@ const Input = (
                     value={data ? data[propertyName] || '' : ''}
                 />
             </div>
-            {
-                !inputViolations.isEmpty() &&
-                <ul className={config?.violationsListClassName}>
-                    {config?.renderFirstViolationOnly
-                        ?
-                        <li className={config?.violationsItemClassName}>
-                            {inputViolations.violations[0].message}
-                        </li>
-                        :
-                        inputViolations.violations.map((violation: Violation, index: number) => (
-                            <li className={config?.violationsItemClassName} key={index}>
-                                {violation.message}
-                            </li>
-                        ))
-                    }
-                </ul>
-            }
-
+            <ViolationsList
+                violations={inputViolations}
+                config={config}
+            />
         </>
     );
 };
